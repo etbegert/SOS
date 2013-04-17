@@ -73,14 +73,14 @@ public class MMU
     
     /**
      * This int contains a 1 in every bit that corresponds to the status of a
-     * page table entry.
+     * page table entry. (Last 3 bits)
      */
     private int m_statusMask = 7;  
     
     /**
      * This int will contain a 1 in every bit that corresponds to the
      * page number of the virtual address and a 0 everywhere else.
-     */
+     */		
     private int m_pageMask = -1;
     
     /**
@@ -303,9 +303,10 @@ public class MMU
      */
     private int translate(int virtAddr)
     {
-    	//TODO #6 HW 8
-        int page = (virtAddr & m_pageMask) >> m_offsetSize;
-        int physAddr = m_RAM.read(page);
+    	//%%%%TODO: #6 HW 8
+        int pageNum = (virtAddr & m_pageMask) >> m_offsetSize;
+        int physBase = m_RAM.read(pageNum);
+        int physAddr = (physBase | m_pageMask);
         return physAddr;
     }//translate
 
